@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}fei-博客{% endblock %}
+{% block content %}
+    <!-- Header banner栏 -->
+    <header id="myCarousel" class="carousel slide">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <a href="{% url 'blolist' %}">
+                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=博文');"></div>
+                </a>
+                <div class="carousel-caption">
+                </div>
+            </div>
+
+            <div class="item">
+                <a href="{% url 'blolist' %}">
+                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=大神分享');"></div>
+                </a>
+                <div class="carousel-caption">
+                </div>
+            </div>
+
+            <div class="item">
+                <a href="{% url 'blolist' %}">
+                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=资源外链');"></div>
+                </a>
+                <div class="carousel-caption">
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="icon-prev"></span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <span class="icon-next"></span>
+        </a>
+    </header>
+    <!-- Page Content 网页正文 -->
+    <div class="container">
+        <!--  网站简介 -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    欢迎来到我的个人博客系统！
+                </h1>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4><i class="fa fa-book fa-fw" aria-hidden="true"></i>&nbsp;博文</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>连续不同岗位的求职干货,帮助你更好的走上春、秋、校招之路.</p>
+                        <a href="{% url 'blolist' %}" class="btn btn-default">查看详情</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4><i class="fa fa-weixin" aria-hidden="true"></i>&nbsp;大神分享</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>各公司宣讲会、卧谈会,分享实用的职场经验,奉献精彩的技术专题,让你领先一步!</p>
+                        <a href="{% url 'blolist' %}" class="btn btn-default">查看详情</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4><i class="fa fa-dribbble" aria-hidden="true"></i>&nbsp;资源外链</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>网络安全 系统运维 Web前端 后端开发 数据库  ... 想继续往这些技术栈方向走! </p>
+                        <a href="{% url 'blolist' %}" class="btn btn-default">查看详情</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Section 博文 -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="page-header">精选博文
+                    <a style="float: right" href="{% url 'blolist' %}" class="btn btn-default">更多>></a>
+                </h2>
+
+            </div>
+            {% for blog in all_blogs %}
+            <div class="col-md-4 col-sm-6">
+                <a href="{% url 'blodetail' blog.id %}">
+                    <img width="700" height="450" class="img-responsive img-portfolio img-hover"
+                         src="{{ MEDIA_URL }}{{ blog.image }}" alt="">
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Portfolio Section 大神分享 -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="page-header">最新分享
+                    <a style="float: right" href="{% url 'blolist' %}" class="btn btn-default">更多>></a>
+                </h2>
+            </div>
+            {% for blog in all_blogs %}
+            <div class="col-md-4 col-sm-6">
+                <a href="{% url 'blodetail' blog.id %}">
+                    <img width="700" height="450" class="img-responsive img-portfolio img-hover"
+                         src="{{ MEDIA_URL }}{{ blog.image }}" alt="">
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Portfolio Section 资源外链 -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="page-header">博文干货
+                    <a style="float: right" href="{% url 'blolist' %}" class="btn btn-default">更多>></a>
+                </h2>
+            </div>
+            {% for blog in all_blogs %}
+            <div class="col-md-4 col-sm-6">
+                <a href="{% url 'blodetail' blog.id %}">
+                    <img width="700" height="450" class="img-responsive img-portfolio img-hover"
+                         src="{{ MEDIA_URL }}{{ blog.image }}" alt="">
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}
+
+

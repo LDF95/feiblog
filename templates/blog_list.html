@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}fei-博客{% endblock %}</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'css/modern-business.css' %}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static 'font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    {% block css %}{% endblock %}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!-- Navigation 导航栏 -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><i class="fa fa-spinner fa-spin fa-fw"></i>&nbsp; Dongfei Li 希望每个人都有一个可轻松管理的博客系统！ </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp;首页</a>
+                    </li>
+                    <li class="active" >
+                        <a href="{% url 'blolist' %}"><i class="fa fa-book fa-fw" aria-hidden="true"></i>&nbsp;博文</a>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-weixin" aria-hidden="true"></i>&nbsp;大神分享<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">在线分享会</a>
+                            </li>
+                            <li>
+                                <a href="#">大神面对面</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-dribbble" aria-hidden="true"></i>&nbsp;资源外链<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li class="active">
+                                <a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000">Python</a>
+                            </li>
+                            <li>
+                                <a href="https://code.ziqiangxuetang.com/django/django-tutorial.html">Django</a>
+                            </li>
+                            <li>
+                                <a href="http://www.anquanquan.info/">Security</a>
+                            </li>
+                        </ul>
+                    </li>
+{#                    <li class="dropdown">#}
+{#                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">不要点我<b class="caret"></b></a>#}
+{#                        <ul class="dropdown-menu">#}
+{#                            <li>#}
+{#                                <a href="#">关于博主</a>#}
+{#                            </li>#}
+{#                            <li>#}
+{#                                <a href="#">报名咨询</a>#}
+{#                            </li>#}
+{#                            <li>#}
+{#                                <a href="#">联系我们</a>#}
+{#                            </li>#}
+{#                            <li>#}
+{#                                <a href="#">校招求职课</a>#}
+{#                            </li>#}
+{#                            <li>#}
+{#                                <a href="#">在线简历制作</a>#}
+{#                            </li>#}
+{#                        </ul>#}
+{#                    </li>#}
+
+                    {% if request.user.is_authenticated %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+{#                                <i class="fa fa-cog fa-fw" aria-hidden="true"></i>&nbsp; {{ request.user.username }}<b class="caret"></b></a>#}
+                                <i class="fa fa-dot-circle-o" aria-hidden="true"></i> {{ request.user.username }}<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                            <li>
+                                <a href="{% url 'logout' %}">注销</a>
+                            </li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+{#                                <i class="fa fa-user-circle fa-fw" aria-hidden="true"></i>&nbsp;加入<b class="caret"></b></a>#}
+                                <i class="fa fa-cog fa-fw" aria-hidden="true"></i>&nbsp; 加入<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                            <li>
+                                <a href="{% url 'login' %}">登录</a>
+                                <a href="{% url 'register' %}">注册</a>
+                            </li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- 内容区 -->
+    <div class="container">
+        <!-- Page Heading/Breadcrumbs 面包屑-->
+        {% block breadcrumbs %}
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">博文
+                    <small> JUST DO IT !</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#">首页</a>
+                    </li>
+                    <li class="active">博文</li>
+                </ol>
+            </div>
+        </div>
+        {% endblock %}
+        <!-- /.row -->
+
+        <div class="row">
+            {% block content_left %}
+            <!-- Blog Entries Column 博文列表 -->
+            <div class="col-md-8">
+
+                <!-- Blog Post 博文简介 -->
+                {% for blog in all_blogs.object_list %}
+                <h2>
+                    <a href="{% url 'blodetail' blog.id %}">{{ blog.title }}</a>
+                </h2>
+                <p class="lead">
+                    by <a href="#">{{ blog.author.name }}</a>
+                </p>
+                <p><i class="fa fa-clock-o"></i> 发表于 {{ blog.pub_time }} 阅读次数{{ blog.read_counts }}</p>
+                <hr>
+                <a href="{% url 'blodetail' blog.id %}">
+                    <img class="img-responsive img-hover" src="{{ MEDIA_URL }}{{ blog.image }}" alt="{{ MEDIA_URL }}{{ blog.image }}">
+                </a>
+                <hr>
+                <p>{{ blog.desc }}</p>
+                <a class="btn btn-primary" href="{% url 'blodetail' blog.id %}">更多 <i class="fa fa-angle-right"></i></a>
+                <hr>
+                {% endfor %}
+
+                <!-- Pager 分页-->
+                <ul class="pager">
+                    {% if all_blogs.has_previous %}
+                    <li class="previous">
+                        <a href="?{{ all_blogs.previous_page_number.querystring }}">&larr; 上一页</a>
+                    </li>
+                    {% endif %}
+
+                    {% if all_blogs.has_next %}
+                    <li class="next">
+                        <a href="?{{ all_blogs.next_page_number.querystring }}">下一页 &rarr;</a>
+                    </li>
+                    {% endif %}
+                </ul>
+
+            </div>
+            {% endblock %}
+
+            {% block content_right %}
+            <!-- Blog Sidebar Widgets Column 博客侧边栏 -->
+            <div class="col-md-4">
+
+                <!-- Blog Search Well 博文搜索-->
+                <div class="well">
+                    <h4>搜索</h4>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="keywords" value="" placeholder="搜点啥吧..">
+                        <span class="input-group-btn">
+                            <button id="jsBtn" class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                    <!-- /.input-group -->
+                </div>
+
+                <!-- Blog Categories Well 博文目录（分类）-->
+                <div class="well">
+                    <h4>岗位方向</h4>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+{#                                <li><a href="{% url 'blolist' '?direction=网络' %}">网络</a></li>#}
+                                <li><a href="?direction=网络">网络</a></li>
+                                <li><a href="?direction=运维">运维</a></li>
+                                <li><a href="?direction=编程">编程</a></li>
+                                <li><a href="?direction=安全">安全</a></li>
+                            </ul>
+                        </div>
+                        <!-- /.col-lg-6 -->
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                                <li><a href="?direction=深度学习">深度学习</a></li>
+                                <li><a href="?direction=程序人生">程序人生</a></li>
+                            </ul>
+                        </div>
+                        <!-- /.col-lg-6 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+                <div class="well">
+                    <h4>分类</h4>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                                <li><a href="?trade=t1">CCIE网络</a></li>
+                                <li><a href="?trade=t2">Linux系统</a></li>
+                                <li><a href="?trade=t3">Python入门</a></li>
+                                <li><a href="?trade=t4">Web安全</a></li>
+                            </ul>
+                        </div>
+                        <!-- /.col-lg-6 -->
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                                <li><a href="?trade=t5">Django框架</a></li>
+                                <li><a href="?trade=t6">数据库</a></li>
+                                <li><a href="?trade=t7">前端</a></li>
+                                <li><a href="?trade=t8">其他</a></li>
+                            </ul>
+                        </div>
+                        <!-- /.col-lg-6 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+                <div class="well">
+                    <h4>年份</h4>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                                <li><a href="?year=1">2018年</a></li>
+                                <li><a href="?year=3">2016年</a></li>
+                            </ul>
+                        </div>
+                        <!-- /.col-lg-6 -->
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                                <li><a href="?year=2">2017年</a></li>
+                                <li><a href="?year=4">2015年</a></li>
+                            </ul>
+                        </div>
+                        <!-- /.col-lg-6 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+                <!-- Side Widget Well 博客介绍区-->
+                <div class="well">
+                    <h4>关于</h4>
+                    <p>学IT技能，交流学习心得，来一起为梦想奋斗！可关注我的个人微信公众号：LDF950303</p>
+                </div>
+
+            </div>
+            {% endblock %}
+        </div>
+    </div>
+
+{% block footer %}
+<!-- 页脚 -->
+<div class="footor" style="background-color: #222">
+    <span style="line-height:60px;color:#fff;padding-left:65px">Copyright &copy; 2015-2019 李东飞 版权所有
+    </span>
+    <span style="line-height:60px;color:#fff;float:right;padding-right:65px">
+        <i class="fa fa-phone-square fa-lg" aria-hidden="true"></i>&nbsp;<a style="color: #ffffff " href="#">联系我们</a>
+    </span>
+    <span style="line-height:60px;color:#fff;float:right;padding-right:50px">
+        <i class="fa fa-question-circle fa-lg" aria-hidden="true"></i>&nbsp;<a style="...color: #ffffff " href="#">常见问题</a>
+    </span>
+    <span style="line-height:60px;color:#fff;float:right;padding-right:50px">
+        <i class="fa fa-youtube-play fa-lg" aria-hidden="true"></i>&nbsp;<a style="color: #ffffff " href="http://edu.51cto.com/lecturer/index/user_id-7749507.html">在线课程</a>
+    </span>
+    <span style="line-height:60px;color:#fff;float:right;padding-right:50px">
+        <i class="fa fa-weibo fa-lg"></i>&nbsp;<a style="color: #ffffff " href="http://blog.csdn.net/dongfei2033">CSDN博客</a>
+    </span>
+</div>
+{% endblock %}
+
+
+    <!-- jQuery -->
+    <script src="{% static 'js/jquery.js' %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    <!-- Script to Activate the Carousel -->
+    <script>
+    $('.carousel').carousel({
+        interval: 5000 //changes the speed
+    })
+    </script>
+
+    <script>
+        function search_click(){
+            var keywords = $('#keywords').val(),
+                request_url = '';
+            if (keywords) {
+                request_url = "/blolist/?keywords="+keywords
+            }
+            window.location.href = request_url;
+        }
+    $('#jsBtn').on('click',function(){
+        search_click()
+    });
+    </script>
+
+{% block js %}
+    <script src="{% static 'js/jquery.goup.min.js' %}"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $.goup({
+            trigger: 50,
+            bottomOffset: 60,
+            locationOffset: 20,
+            title: '',
+            titleAsText: true
+        });
+    });
+    </script>
+{% endblock %}
+</body>
+</html>
